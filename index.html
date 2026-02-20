@@ -153,7 +153,8 @@
             margin: 16px 0;
             opacity: 0.3;
         }
-.token-input {
+
+        .token-input {
             margin-bottom: 16px;
         }
 
@@ -263,7 +264,8 @@
         </div>
 
         <div class="separator"></div>
-<!-- Volume -->
+
+        <!-- Volume -->
         <div class="section-title">
             <span class="section-icon">💰</span>
             <span>Volume</span>
@@ -317,11 +319,11 @@
             }
 
             // Проверка остальных полей
-            if (!longExchange  !longPrice  !shortExchange  !shortPrice  !volume) {
+            if (!longExchange || !longPrice || !shortExchange || !shortPrice || !volume) {
                 throw new Error('Пожалуйста, заполните все поля');
             }
 
-            if (parseFloat(longPrice) <= 0  parseFloat(shortPrice) <= 0  parseFloat(volume) <= 0) {
+            if (parseFloat(longPrice) <= 0 || parseFloat(shortPrice) <= 0 || parseFloat(volume) <= 0) {
                 throw new Error('Цены и объем должны быть больше нуля');
             }
 
@@ -362,7 +364,7 @@
                 };
 
                 // ЗАМЕНИТЕ ЭТОТ URL НА ВАШ WEBHOOK URL ИЗ N8N
-              const response = await fetch('https://gitnickolay.app.n8n.cloud/webhook-test/e9b928a3-3361-455a-a4bd-541d8fddf0a3', {
+                const response = await fetch('https://your-n8n-webhook-url.com/webhook/your-endpoint', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -372,7 +374,7 @@
                 });
 
                 if (!response.ok) {
-                    throw new Error(HTTP error! status: ${response.status});
+                    throw new Error(`HTTP error! status: ${response.status}`);
                 }
 
                 const result = await response.json();
@@ -398,7 +400,7 @@
                 
                 // Показываем ошибку
                 statusDiv.className = 'status-message error';
-                statusDiv.textContent = ❌ Ошибка: ${error.message};
+                statusDiv.textContent = `❌ Ошибка: ${error.message}`;
                 
                 // Вибрация на телефоне
                 if (tg.HapticFeedback) {
@@ -462,4 +464,4 @@
         });
     </script>
 </body>
-</html>
+    </html>
