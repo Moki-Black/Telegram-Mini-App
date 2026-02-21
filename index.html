@@ -1,467 +1,416 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Arbitrage Form</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Arbitrage Form · TMA</title>
+    <!-- Telegram Web App styles hint -->
     <style>
         * {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
         }
 
         body {
-            background: var(--tg-theme-bg-color, #ffffff);
-            color: var(--tg-theme-text-color, #000000);
-            padding: 16px;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background: var(--tg-theme-bg-color, #f8f9fc);
+            color: var(--tg-theme-text-color, #1c1e2a);
             min-height: 100vh;
             display: flex;
             flex-direction: column;
+            padding: 18px 16px;
+            margin: 0;
+            transition: background 0.2s ease;
         }
 
-        .container {
-            max-width: 400px;
-            margin: 0 auto;
+        .form-card {
+            background: var(--tg-theme-secondary-bg-color, #ffffff);
+            border-radius: 24px;
+            padding: 22px 18px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.02);
+            border: 1px solid var(--tg-theme-hint-color, rgba(0,0,0,0.04));
             width: 100%;
-            flex: 1;
+            max-width: 480px;
+            margin: 0 auto;
         }
 
         h1 {
-            font-size: 24px;
+            font-size: 28px;
             font-weight: 600;
-            margin-bottom: 8px;
-            color: var(--tg-theme-text-color, #000000);
+            letter-spacing: -0.3px;
+            margin-bottom: 24px;
+            padding-left: 4px;
+            color: var(--tg-theme-text-color, #1c1e2a);
         }
 
-        .subtitle {
-            font-size: 14px;
-            color: var(--tg-theme-hint-color, #666666);
+        .field-group {
             margin-bottom: 24px;
         }
 
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 8px;
-            font-size: 14px;
-            font-weight: 500;
-            color: var(--tg-theme-hint-color, #666666);
-        }
-
-        select, input {
-            width: 100%;
-            padding: 12px 16px;
-            border: 1px solid var(--tg-theme-hint-color, #dadada);
-            border-radius: 12px;
-            font-size: 16px;
-            background: var(--tg-theme-secondary-bg-color, #f5f5f5);
-            color: var(--tg-theme-text-color, #000000);
-            outline: none;
-            transition: border-color 0.2s;
-        }
-
-        select:focus, input:focus {
-            border-color: var(--tg-theme-button-color, #40a7e3);
-        }
-
-        input[type="number"] {
-            -moz-appearance: textfield;
-        }
-
-        input[type="number"]::-webkit-outer-spin-button,
-        input[type="number"]::-webkit-inner-spin-button {
-            -webkit-appearance: none;
-            margin: 0;
-        }
-
-        .section-title {
-            font-size: 18px;
-            font-weight: 600;
-            margin: 24px 0 16px 0;
-            color: var(--tg-theme-text-color, #000000);
+        .field-label {
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 6px;
+            margin-bottom: 8px;
+            font-weight: 500;
+            font-size: 15px;
+            color: var(--tg-theme-hint-color, #6d7a8f);
         }
 
-        .section-title:first-of-type {
-            margin-top: 0;
+        .field-label span {
+            opacity: 0.7;
         }
 
-        .section-icon {
-            font-size: 20px;
-        }
-
-        button {
+        input, select {
             width: 100%;
-            padding: 16px;
+            padding: 16px 14px;
+            font-size: 16px;
+            background: var(--tg-theme-bg-color, #f2f5fa);
+            border: 1.5px solid transparent;
+            border-radius: 18px;
+            outline: none;
+            color: var(--tg-theme-text-color, #1c1e2a);
+            transition: border 0.1s, background 0.2s;
+            font-weight: 450;
+            appearance: none;
+            -webkit-appearance: none;
+        }
+
+        select {
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="%236d7a8f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>');
+            background-repeat: no-repeat;
+            background-position: right 14px center;
+            background-size: 18px;
+        }
+
+        input:focus, select:focus {
+            border-color: var(--tg-theme-button-color, #40a7e3);
+            background: var(--tg-theme-secondary-bg-color, #ffffff);
+        }
+
+        .double-row {
+            display: flex;
+            gap: 14px;
+            flex-wrap: wrap;
+        }
+
+        .double-row .field-group {
+            flex: 1 1 calc(50% - 7px);
+            min-width: 140px;
+        }
+
+        .submit-btn {
+            width: 100%;
             background: var(--tg-theme-button-color, #40a7e3);
             color: var(--tg-theme-button-text-color, #ffffff);
             border: none;
-            border-radius: 14px;
-            font-size: 17px;
+            border-radius: 18px;
+            padding: 18px 14px;
+            font-size: 18px;
             font-weight: 600;
+            margin-top: 16px;
+            box-shadow: 0 4px 10px rgba(0,100,200,0.2);
+            transition: opacity 0.15s, transform 0.1s;
             cursor: pointer;
-            transition: opacity 0.2s;
-            margin: 16px 0 8px 0;
         }
 
-        button:active {
-            opacity: 0.8;
+        .submit-btn:active {
+            transform: scale(0.98);
+            opacity: 0.85;
         }
 
-        button:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
+        .submit-btn:disabled {
+            opacity: 0.6;
+            pointer-events: none;
         }
 
         .status-message {
+            margin-top: 16px;
             text-align: center;
-            font-size: 14px;
-            margin-top: 12px;
-            padding: 8px;
-            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 480;
+            color: var(--tg-theme-hint-color, #526069);
+            background: var(--tg-theme-secondary-bg-color, #eef2f6);
+            padding: 12px;
+            border-radius: 40px;
             display: none;
         }
 
-        .status-message.success {
-            background: rgba(39, 174, 96, 0.1);
-            color: #27ae60;
+        .status-message.show {
             display: block;
         }
 
-        .status-message.error {
-            background: rgba(231, 76, 60, 0.1);
-            color: #e74c3c;
-            display: block;
+        .token-input-wrapper {
+            position: relative;
         }
 
-        .status-message.loading {
-            background: var(--tg-theme-secondary-bg-color, #f5f5f5);
-            color: var(--tg-theme-hint-color, #666666);
-            display: block;
+        .token-symbol {
+            position: absolute;
+            right: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--tg-theme-hint-color, #888);
+            font-weight: 500;
+            pointer-events: none;
         }
 
-        .separator {
-            height: 1px;
-            background: var(--tg-theme-hint-color, #e0e0e0);
-            margin: 16px 0;
-            opacity: 0.3;
-        }
-
-        .token-input {
-            margin-bottom: 16px;
-        }
-
-        .token-suggestions {
-            display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
-            margin-top: 8px;
-        }
-
-        .token-suggestion {
-            padding: 6px 12px;
-            background: var(--tg-theme-secondary-bg-color, #f0f0f0);
-            border-radius: 20px;
-            font-size: 13px;
-            cursor: pointer;
-            border: 1px solid transparent;
-            transition: all 0.2s;
-            color: var(--tg-theme-text-color, #000000);
-        }
-
-        .token-suggestion:hover {
-            border-color: var(--tg-theme-button-color, #40a7e3);
-            background: var(--tg-theme-bg-color, #ffffff);
-        }
-
-        .input-hint {
-            font-size: 12px;
-            color: var(--tg-theme-hint-color, #999999);
-            margin-top: 4px;
+        /* Telegram bottom safe area */
+        .spacer {
+            height: 10px;
         }
     </style>
+    <!-- Telegram WebApp library -->
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
 </head>
 <body>
-    <div class="container">
-        <h1>📊 Arbitrage Calculator</h1>
-        <div class="subtitle">Заполните форму для расчета арбитража</div>
+    <div class="form-card">
+        <h1>📊 Arbitrage · Scanner</h1>
 
-        <!-- Token Field (NEW) -->
-        <div class="section-title">
-            <span class="section-icon">🪙</span>
-            <span>Торговая пара</span>
-        </div>
-
-        <div class="form-group token-input">
-            <label for="token">Токен / Пара</label>
-            <input type="text" id="token" placeholder="Например: BTC/USDT, ETH, SOL" required>
-            <div class="token-suggestions">
-                <span class="token-suggestion" onclick="setToken('BTC/USDT')">BTC/USDT</span>
-                <span class="token-suggestion" onclick="setToken('ETH/USDT')">ETH/USDT</span>
-                <span class="token-suggestion" onclick="setToken('SOL/USDT')">SOL/USDT</span>
-                <span class="token-suggestion" onclick="setToken('BNB/USDT')">BNB/USDT</span>
-                <span class="token-suggestion" onclick="setToken('XRP/USDT')">XRP/USDT</span>
+        <!-- основная форма -->
+        <form id="arbForm">
+            <!-- название токена (обязательное) -->
+            <div class="field-group">
+                <div class="field-label"><span>🪙</span> Название токена</div>
+                <div class="token-input-wrapper">
+                    <input type="text" id="tokenName" name="tokenName" placeholder="например, NOT, DOGS, BTC" autocomplete="off" required>
+                </div>
             </div>
-            <div class="input-hint">Введите название токена или торговую пару</div>
-        </div>
 
-        <div class="separator"></div>
+            <!-- Long биржа + цена (два в ряд) -->
+            <div class="double-row">
+                <div class="field-group">
+                    <div class="field-label"><span>📈 Long</span> Биржа</div>
+                    <select id="longExchange" name="longExchange" required>
+                        <option value="" disabled selected>— выбрать —</option>
+                        <option value="Binance">Binance</option>
+                        <option value="Bybit">Bybit</option>
+                        <option value="OKX">OKX</option>
+                        <option value="Gate">Gate</option>
+                        <option value="MEXC">MEXC</option>
+                    </select>
+                </div>
+                <div class="field-group">
+                    <div class="field-label"><span>💰</span> Цена Long</div>
+                    <input type="number" id="longPrice" name="longPrice" step="any" placeholder="0.00" required>
+                </div>
+            </div>
 
-        <!-- Long Position -->
-        <div class="section-title">
-            <span class="section-icon">📈</span>
-            <span>Long Position</span>
-        </div>
-        
-        <div class="form-group">
-            <label for="longExchange">Биржа (Long)</label>
-            <select id="longExchange" required>
-                <option value="" disabled selected>Выберите биржу</option>
-                <option value="Binance">Binance</option>
-                <option value="Bybit">Bybit</option>
-                <option value="OKX">OKX</option>
-                <option value="Gate">Gate</option>
-                <option value="MEXC">MEXC</option>
-            </select>
-        </div>
+            <!-- Short биржа + цена (два в ряд) -->
+            <div class="double-row">
+                <div class="field-group">
+                    <div class="field-label"><span>📉 Short</span> Биржа</div>
+                    <select id="shortExchange" name="shortExchange" required>
+                        <option value="" disabled selected>— выбрать —</option>
+                        <option value="Binance">Binance</option>
+                        <option value="Bybit">Bybit</option>
+                        <option value="OKX">OKX</option>
+                        <option value="Gate">Gate</option>
+                        <option value="MEXC">MEXC</option>
+                    </select>
+                </div>
+                <div class="field-group">
+                    <div class="field-label"><span>💎</span> Цена Short</div>
+                    <input type="number" id="shortPrice" name="shortPrice" step="any" placeholder="0.00" required>
+                </div>
+            </div>
 
-        <div class="form-group">
-            <label for="longPrice">Цена (Long)</label>
-            <input type="number" id="longPrice" step="0.01" min="0" placeholder="0.00" required>
-        </div>
+            <!-- объем (отдельно) -->
+            <div class="field-group">
+                <div class="field-label"><span>📦</span> Объем (USDT или токен)</div>
+                <input type="number" id="volume" name="volume" step="any" placeholder="например 1250.5" required>
+            </div>
 
-        <div class="separator"></div>
+            <!-- кнопка отправки -->
+            <button type="submit" class="submit-btn" id="sendBtn">🚀 Отправить</button>
+        </form>
 
-        <!-- Short Position -->
-        <div class="section-title">
-            <span class="section-icon">📉</span>
-            <span>Short Position</span>
-        </div>
-
-        <div class="form-group">
-            <label for="shortExchange">Биржа (Short)</label>
-            <select id="shortExchange" required>
-                <option value="" disabled selected>Выберите биржу</option>
-                <option value="Binance">Binance</option>
-                <option value="Bybit">Bybit</option>
-                <option value="OKX">OKX</option>
-                <option value="Gate">Gate</option>
-                <option value="MEXC">MEXC</option>
-            </select>
-        </div>
-
-        <div class="form-group">
-            <label for="shortPrice">Цена (Short)</label>
-            <input type="number" id="shortPrice" step="0.01" min="0" placeholder="0.00" required>
-        </div>
-
-        <div class="separator"></div>
-
-        <!-- Volume -->
-        <div class="section-title">
-            <span class="section-icon">💰</span>
-            <span>Volume</span>
-        </div>
-        
-        <div class="form-group">
-            <label for="volume">Объем</label>
-            <input type="number" id="volume" step="0.01" min="0" placeholder="0.00" required>
-        </div>
-
-        <!-- Submit Button -->
-        <button id="submitBtn" onclick="submitForm()">Отправить данные</button>
-
-        <!-- Status Message -->
-        <div id="statusMessage" class="status-message"></div>
+        <!-- статус сообщение (обратная связь) -->
+        <div class="status-message" id="statusMsg"></div>
     </div>
+    <div class="spacer"></div>
 
     <script>
-        let tg = window.Telegram.WebApp;
-        
-        // Инициализация Mini App
-        tg.expand();
-        tg.MainButton.hide();
-        
-        // Настройка цветов темы
-        document.body.style.background = tg.themeParams.bg_color || '#ffffff';
-        document.body.style.color = tg.themeParams.text_color || '#000000';
-
-        // Функция для установки токена из подсказок
-        function setToken(token) {
-            document.getElementById('token').value = token;
-        }
-
-        // Функция для получения CSRF токена (если нужен)
-        function getCsrfToken() {
-            return document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '';
-        }
-
-        // Функция валидации формы
-        function validateForm() {
-            const token = document.getElementById('token').value.trim();
-            const longExchange = document.getElementById('longExchange').value;
-            const longPrice = document.getElementById('longPrice').value;
-            const shortExchange = document.getElementById('shortExchange').value;
-            const shortPrice = document.getElementById('shortPrice').value;
-            const volume = document.getElementById('volume').value;
-
-            // Проверка токена
-            if (!token) {
-                throw new Error('Пожалуйста, укажите токен или торговую пару');
+        (function() {
+            // --- Telegram WebApp integration ---
+            const tg = window.Telegram?.WebApp;
+            if (tg) {
+                tg.expand();                // растянуть на весь экран
+                tg.enableClosingConfirmation(); // предупреждение при закрытии (опционально)
+                tg.ready();                  // сообщаем, что приложение готово
+                // фон автоматически подстраивается под тему, используем CSS переменные
             }
 
-            // Проверка остальных полей
-            if (!longExchange || !longPrice || !shortExchange || !shortPrice || !volume) {
-                throw new Error('Пожалуйста, заполните все поля');
+            // элементы формы
+            const form = document.getElementById('arbForm');
+            const tokenInput = document.getElementById('tokenName');
+            const longExchange = document.getElementById('longExchange');
+            const longPrice = document.getElementById('longPrice');
+            const shortExchange = document.getElementById('shortExchange');
+            const shortPrice = document.getElementById('shortPrice');
+            const volume = document.getElementById('volume');
+            const submitBtn = document.getElementById('sendBtn');
+            const statusDiv = document.getElementById('statusMsg');
+
+            // URL твоего n8n вебхука (по условию)
+            const WEBHOOK_URL = 'https://gitnickolay.app.n8n.cloud/webhook-test/e9b928a3-3361-455a-a4bd-541d8fddf0a3';
+
+            // Вспомогательная функция: показать статус (успех/ошибка)
+            function setStatus(message, isError = false) {
+                statusDiv.textContent = message;
+                statusDiv.classList.add('show');
+                // можно слегка стилизовать ошибку (но используем стандартные цвета темы)
+                if (isError) {
+                    statusDiv.style.background = 'rgba(255, 80, 80, 0.15)';
+                    statusDiv.style.color = 'var(--tg-theme-text-color, #c42e2e)';
+                } else {
+                    // сброс к теме
+                    statusDiv.style.background = 'var(--tg-theme-secondary-bg-color, #eef2f6)';
+                    statusDiv.style.color = 'var(--tg-theme-hint-color, #2e5a3b)';
+                }
             }
 
-            if (parseFloat(longPrice) <= 0 || parseFloat(shortPrice) <= 0 || parseFloat(volume) <= 0) {
-                throw new Error('Цены и объем должны быть больше нуля');
+            // Очистка статуса перед новым запросом
+            function clearStatus() {
+                statusDiv.classList.remove('show');
+                statusDiv.textContent = '';
             }
 
-            return {
-                token: token.toUpperCase(), // Приводим к верхнему регистру для единообразия
-                longExchange,
-                longPrice: parseFloat(longPrice),
-                shortExchange,
-                shortPrice: parseFloat(shortPrice),
-                volume: parseFloat(volume)
-            };
-        }
+            // Валидация: все поля должны быть заполнены (HTML5 required уже помогает)
+            function validateForm() {
+                if (!tokenInput.value.trim()) return false;
+                if (!longExchange.value) return false;
+                if (!longPrice.value || isNaN(longPrice.value) || longPrice.value === '') return false;
+                if (!shortExchange.value) return false;
+                if (!shortPrice.value || isNaN(shortPrice.value) || shortPrice.value === '') return false;
+                if (!volume.value || isNaN(volume.value) || volume.value === '') return false;
+                return true;
+            }
 
-        // Функция отправки данных в n8n
-        async function submitForm() {
-            const submitBtn = document.getElementById('submitBtn');
-            const statusDiv = document.getElementById('statusMessage');
-            
-            try {
-                // Валидация
-                const formData = validateForm();
-                
-                // Блокируем кнопку
-                submitBtn.disabled = true;
-                
-                // Показываем статус загрузки
-                statusDiv.className = 'status-message loading';
-                statusDiv.textContent = 'Отправка данных...';
+            // Функция отправки данных через POST (JSON)
+            async function sendData(payload) {
+                try {
+                    // показать состояние загрузки
+                    submitBtn.disabled = true;
+                    submitBtn.textContent = '⏳ Отправка...';
+                    clearStatus();
 
-                // Добавляем метаданные Telegram
-                const payload = {
-                    ...formData,
-                    telegram_init_data: tg.initData || '',
-                    user: tg.initDataUnsafe?.user || null,
-                    chat: tg.initDataUnsafe?.chat || null,
+                    const response = await fetch(WEBHOOK_URL, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            // можно добавить заголовок, если n8n хочет видеть источник
+                            'X-TMA-Source': 'arbitrage-form'
+                        },
+                        body: JSON.stringify(payload)
+                    });
+
+                    // проверка ответа
+                    let responseText = '';
+                    let responseOk = response.ok;
+
+                    // пытаемся прочитать тело (может быть пустое или не json)
+                    try {
+                        const clonedResponse = response.clone();
+                        const json = await clonedResponse.json();
+                        responseText = JSON.stringify(json);
+                    } catch (e) {
+                        // если не json, читаем как текст
+                        try {
+                            responseText = await response.text();
+                        } catch (textErr) {
+                            responseText = ' (нет тела)';
+                        }
+                    }
+
+                    if (responseOk) {
+                        setStatus('✅ Данные успешно отправлены!', false);
+                        // можно слегка очистить форму? – по желанию оставим как есть.
+                        // если нужно сбросить: form.reset(); 
+                        // но арбитражник возможно захочет оставить, поэтому не сбрасываем.
+                    } else {
+                        setStatus(`❌ Ошибка сервера (${response.status})`, true);
+                        console.error('Webhook error:', response.status, responseText);
+                    }
+                } catch (error) {
+                    setStatus(`⚠️ Ошибка сети: ${error.message}`, true);
+                    console.error('Fetch failed:', error);
+                } finally {
+                    // восстановить кнопку
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = '🚀 Отправить';
+                }
+            }
+
+            // Обработчик сабмита формы
+            form.addEventListener('submit', async (e) => {
+                e.preventDefault(); // отключаем перезагрузку
+
+                if (!validateForm()) {
+                    setStatus('❗ Заполните все поля корректно', true);
+                    return;
+                }
+
+                // Собираем данные согласно заданию:
+                // названия токена, long биржа, цена long, short биржа, цена short, объем.
+                // Добавляем также метку времени и инициатора (Telegram init data, если нужно)
+                const formData = {
+                    token: tokenInput.value.trim(),
+                    longExchange: longExchange.value,
+                    longPrice: parseFloat(longPrice.value),   // число
+                    shortExchange: shortExchange.value,
+                    shortPrice: parseFloat(shortPrice.value), // число
+                    volume: parseFloat(volume.value),         // число
                     timestamp: new Date().toISOString(),
-                    source: 'telegram_mini_app'
+                    // полезно добавить информацию о пользователе из Telegram, если доступно
                 };
 
-                // ЗАМЕНИТЕ ЭТОТ URL НА ВАШ WEBHOOK URL ИЗ N8N
-                const response = await fetch('https://gitnickolay.app.n8n.cloud/webhook-test/e9b928a3-3361-455a-a4bd-541d8fddf0a3', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-Token': getCsrfToken()
-                    },
-                    body: JSON.stringify(payload)
-                });
-
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
+                // Если Telegram WebApp передает данные пользователя — добавим их (необязательно)
+                if (tg && tg.initDataUnsafe?.user) {
+                    const user = tg.initDataUnsafe.user;
+                    formData.telegramUser = {
+                        id: user.id,
+                        firstName: user.first_name,
+                        lastName: user.last_name,
+                        username: user.username,
+                        languageCode: user.language_code
+                    };
                 }
 
-                const result = await response.json();
-                
-                // Успешная отправка
-                statusDiv.className = 'status-message success';
-                statusDiv.textContent = '✅ Данные успешно отправлены!';
-                
-                // Вибрация на телефоне
-                if (tg.HapticFeedback) {
-                    tg.HapticFeedback.notificationOccurred('success');
-                }
+                // Отправка на вебхук
+                await sendData(formData);
 
-                // Опционально: показываем уведомление в Telegram
-                tg.showPopup({
-                    title: 'Успех',
-                    message: 'Данные успешно отправлены в n8n',
-                    buttons: [{type: 'ok'}]
-                });
-
-            } catch (error) {
-                console.error('Error:', error);
-                
-                // Показываем ошибку
-                statusDiv.className = 'status-message error';
-                statusDiv.textContent = `❌ Ошибка: ${error.message}`;
-                
-                // Вибрация на телефоне
-                if (tg.HapticFeedback) {
-                    tg.HapticFeedback.notificationOccurred('error');
-                }
-
-                // Показываем popup с ошибкой
-                tg.showPopup({
-                    title: 'Ошибка',
-                    message: error.message,
-                    buttons: [{type: 'close'}]
-                });
-            } finally {
-                // Разблокируем кнопку через небольшую задержку
-                setTimeout(() => {
-                    submitBtn.disabled = false;
-                }, 2000);
-            }
-        }
-
-        // Добавляем поддержку Enter для отправки формы
-        document.addEventListener('keypress', function(e) {
-            if (e.key === 'Enter' && !e.shiftKey) {
-                e.preventDefault();
-                submitForm();
-            }
-        });
-
-        // Валидация на лету для поля токена (разрешаем только буквы, цифры и слэш)
-        document.getElementById('token').addEventListener('input', function(e) {
-            this.value = this.value.replace(/[^a-zA-Z0-9/]/g, '').toUpperCase();
-        });
-
-        // Автоматическое форматирование цены (не даем вводить больше 2 знаков после запятой)
-        document.querySelectorAll('input[type="number"]').forEach(input => {
-            input.addEventListener('blur', function() {
-                if (this.value) {
-                    this.value = parseFloat(this.value).toFixed(2);
+                // После успеха можно вибрировать (если поддерживается)
+                if (tg && tg.HapticFeedback) {
+                    tg.HapticFeedback.notification('success');
                 }
             });
-        });
 
-        // Закрываем Mini App при необходимости
-        function closeApp() {
-            tg.close();
-        }
+            // Дополнительно: живая подсказка при потере фокуса на цене (clean)
+            [longPrice, shortPrice, volume].forEach(field => {
+                field.addEventListener('blur', () => {
+                    if (field.value !== '' && isNaN(parseFloat(field.value))) {
+                        field.style.borderColor = '#ff7979';
+                    } else {
+                        field.style.borderColor = ''; // вернуть как при focus
+                    }
+                });
+                field.addEventListener('focus', () => {
+                    field.style.borderColor = ''; // сброс ручной подсветки
+                });
+            });
 
-        // Показываем предупреждение при попытке закрыть страницу
-        window.addEventListener('beforeunload', function (e) {
-            if (document.getElementById('submitBtn').disabled) {
-                e.preventDefault();
-                e.returnValue = 'Данные отправляются. Пожалуйста, подождите...';
-            }
-        });
+            // необязательно: скрываем статус при начале печатания
+            form.addEventListener('input', () => {
+                if (statusDiv.classList.contains('show')) {
+                    // не удаляем мгновенно, можно просто затухание
+                }
+            });
 
-        // Обработка кнопки назад в Telegram
-        tg.onEvent('backButtonClicked', function() {
-            if (confirm('Закрыть приложение?')) {
-                tg.close();
-            }
-        });
+            // принудительно показываем статус в случае невалидной отправки
+            // так же можно установить параметры темы, но они уже работают через CSS
+            console.log('Telegram Mini App ready · Arb form');
+        })();
     </script>
 </body>
-    </html>
+</html>
